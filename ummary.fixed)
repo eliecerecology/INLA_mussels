@@ -1,0 +1,42 @@
+dispersion_check           package:inlatools           R Documentation
+
+_U_s_e _s_i_m_u_l_a_t_i_o_n_s _t_o _c_h_e_c_k _f_o_r _o_v_e_r_d_i_s_p_e_r_s_i_o_n _o_r _u_n_d_e_r_d_i_s_p_e_r_s_i_o_n
+
+_D_e_s_c_r_i_p_t_i_o_n:
+
+     Use simulations to check for overdispersion or underdispersion
+
+_U_s_a_g_e:
+
+     dispersion_check(object, nsim = 1000)
+     
+     ## S4 method for signature 'inla'
+     dispersion_check(object, nsim = 1000)
+     
+_A_r_g_u_m_e_n_t_s:
+
+  object: the INLA model
+
+    nsim: the number of simulation
+
+_S_e_e _A_l_s_o:
+
+     Other checks: ‘distribution_check’, ‘fast_distribution_check’
+
+_E_x_a_m_p_l_e_s:
+
+     library(INLA)
+     set.seed(20181202)
+     model <- inla(
+       poisson ~ 1,
+       family = "poisson",
+       data = data.frame(
+         poisson = rpois(20, lambda = 10),
+         base = 1
+       ),
+       control.predictor = list(compute = TRUE)
+     )
+     dc <- dispersion_check(model)
+     str(dc)
+     
+
