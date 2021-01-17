@@ -359,7 +359,7 @@ plot(simulate_iid(sigma =2))
 plot(dispersion_check(G3Rslope))
 
 
-p   <- nrow(G3Rslope$summary.fixed)
+p   <- nrow(G3R$summary.fixed)
 muR <- G3R$summary.fitted.values[1:N, "mean"]
 E1  <- (as.integer(MA3$recr_aut) - muR) / sqrt(muR)
 sum(E1^2) / (N - p + 2) 
@@ -563,7 +563,7 @@ we <- MA3 %>% bind_cols(as_tibble(res)) %>%
 
 # insert ggplot code
 tiff("/home/elvi/Documents/BayesianAnalysis/figures/Figure1.tiff", units="in", width=15, height=15, res=150)
-pdf("/home/elvi/Documents/BayesianAnalysis/figures/Figure2.pdf", width=15, height=15)
+jpeg("/home/elvi/Documents/BayesianAnalysis/figures/Figure_charts1.jpeg", width=1000, height=1000, res=118.1)
 figure <- ggarrange(mar_sal, sal, mar_temp, temp, mar_exp, we,
                     labels = c("A", "B", "C", "D", "E", "F"),
                     ncol = 2, nrow = 3)
@@ -580,7 +580,7 @@ PlotField2 <- function(field, mesh, ContourMap, xlim, ylim, Add=FALSE, MyMain, .
   stopifnot(length(field) == mesh$n)
   # Plotting region to be the same as the study area polygon
   if (missing(xlim)) xlim <- c(275000, 295000) 
-  if (missing(ylim)) ylim <- c(6627799, 6643943) #- 555
+  if (missing(ylim)) ylim <- c(6637799, 6643943) #c(6627799, 6643943)
   
   # inla.mesh.projector: it creates a lattice using the mesh and specified ranges. 
   proj <- inla.mesh.projector(mesh, 
@@ -603,7 +603,7 @@ PlotField2 <- function(field, mesh, ContourMap, xlim, ylim, Add=FALSE, MyMain, .
              main = MyMain,
              xlab = c("Easting"),
              ylab = c("Northing"),
-             cex.lab=2.0, cex.main=2, cex.axis=1.25, lwd=2,
+             cex.lab = 1.2, cex.main = 1.3, cex.axis = 0.8, lwd = 5,
              ...) 
 }
 # Plot the spatial random field 
@@ -619,9 +619,10 @@ w     <- G3R$summary.random$w$mean
 #tiff("test.tiff", units="in", width=5, height=5, res=300)
 # insert ggplot code
 
-#tiff("/home/elvi/Documents/BayesianAnalysis/figures/Figure2.tiff", units="in", width=15, height=15, res=150)
-pdf("/home/elvi/Documents/BayesianAnalysis/figures/Figure1.pdf", width=15, height=15)
-par(oma=c(2,2,2,2), mar = c(5,5,3,3)) # margin of 4 spaces width at right hand side
+jpeg("/home/elvi/Documents/BayesianAnalysis/figures/Figure1_1a.jpeg", width= 800, height=800, res=118.1) #, 
+#pdf("/home/elvi/Documents/BayesianAnalysis/figures/Figure1.pdf", width=15, height=15)
+#png(file="/home/elvi/Documents/BayesianAnalysis/figures/Figure1_1.png", width=15, height=15)
+par(oma=c(10,35,3,10), mar = c(5,5,3,3)) # margin of 4 spaces width at right hand side
 set.panel(2,2) # 2X2 matrix of plots
 
 for (i in 1:length(Years)){
@@ -630,20 +631,21 @@ for (i in 1:length(Years)){
   w.pm <- w[wRepl.index$w.repl == i]
   PlotField2(field = w.pm, 
              mesh = mesh, 
-             xlim = c(278475.8, 300000.8), 
-             ylim =  c(6627799, 6643100), #6643943
+             xlim = c(280000.8, 300000.8), # 278475.8, 300000.8 
+             ylim =  c(6627799, 6643000), #6627799 6643100
              #xlim = c(278475.8, 300000.8), 
              #ylim =  c(6627799, 6643943),
              zlim = range(-3.5,3.5), 
              MyMain = MyTitle)
   points(x = Loc[MA3$year==Years[i],1],
          y = Loc[MA3$year==Years[i],2], 
-         cex = 1, 
+         cex = 0.8, # size dot
          col = "black", 
-         pch = 16)
+         pch = 16) #shape of dot
  plot(ShapeF.utm, add = TRUE, col = "gray")
    
 }
+
 dev.off()
 
 ###############another graph
@@ -787,8 +789,8 @@ sum(E1^2) / (N - p)
 
 Years <- levels(MA3$year)
 w     <- G3Z$summary.random$w$mean
-pdf("/home/elvi/Documents/BayesianAnalysis/figures/Figure3.pdf", width=15, height=15)
-par(oma=c(2,2,2,2), mar = c(5,5,3,3)) # margin of 4 spaces width at right hand side
+jpeg("/home/elvi/Documents/BayesianAnalysis/figures/Figure2_2.jpeg", width= 1000, height=1000, res=118.11)
+par(oma=c(10,35,3,10), mar = c(5,5,3,3)) # margin of 4 spaces width at right hand side
 set.panel(2,2) # 2X2 matrix of plots
 
 for (i in 1:length(Years)){
@@ -797,15 +799,17 @@ for (i in 1:length(Years)){
   w.pm <- w[wRepl.index$w.repl == i]
   PlotField2(field = w.pm, 
              mesh = mesh, 
-             xlim = c(280000, 295000.8),#c(278475.8, 300000.8), 
-             ylim =  c(6627799, 6642900), #6643943
+             xlim = c(280000.8, 300000.8), # 278475.8, 300000.8 
+             ylim =  c(6627799, 6643000), #6627799 6643100
+             #xlim = c(278475.8, 300000.8), 
+             #ylim =  c(6627799, 6643943),
              zlim = range(-3.5,3.5), 
              MyMain = MyTitle)
   points(x = Loc[MA3$year==Years[i],1],
          y = Loc[MA3$year==Years[i],2], 
-         cex = 1.5, 
+         cex = 0.8, # size dot
          col = "black", 
-         pch = 16)
+         pch = 16) #shape of dot
  plot(ShapeF.utm, add = TRUE, col = "gray")
    
 }
