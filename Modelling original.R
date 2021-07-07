@@ -603,7 +603,7 @@ PlotField2 <- function(field, mesh, ContourMap, xlim, ylim, Add=FALSE, MyMain, .
              main = MyMain,
              xlab = c("Easting"),
              ylab = c("Northing"),
-             cex.lab = 1.2, cex.main = 1.3, cex.axis = 0.8, lwd = 5,
+             cex.lab = 1.5, cex.main = 1.3, cex.axis = 0.8, lwd = 5,
              ...) 
 }
 # Plot the spatial random field 
@@ -785,16 +785,17 @@ E1  <- (MA3$zerofive - muZ) / sqrt(muZ)
 sum(E1^2) / (N - p)
 #0.08 ~ 0.1
 
-
-
-Years <- levels(MA3$year)
+Years <- levels(MA3$year)  # FOR PLOTTING
 w     <- G3Z$summary.random$w$mean
-jpeg("/home/elvi/Documents/BayesianAnalysis/figures/Figure2_2.jpeg", width= 1000, height=1000, res=118.11)
-par(oma=c(10,35,3,10), mar = c(5,5,3,3)) # margin of 4 spaces width at right hand side
+
+
+tiff("/home/elvi/Documents/BayesianAnalysis/figures/FigureV7.tiff", units = "in", width= 17, height=17, res = 300)
+par(oma=c(10,1,1,1), mar = c(8,6,8,6)) # 10,35,3,10 margin of 4 spaces width at right hand side
 set.panel(2,2) # 2X2 matrix of plots
 
+
 for (i in 1:length(Years)){
-  MyTitle <- Years[i]
+  MyTitle <- Years[i] 
 
   w.pm <- w[wRepl.index$w.repl == i]
   PlotField2(field = w.pm, 
@@ -804,7 +805,7 @@ for (i in 1:length(Years)){
              #xlim = c(278475.8, 300000.8), 
              #ylim =  c(6627799, 6643943),
              zlim = range(-3.5,3.5), 
-             MyMain = MyTitle)
+             MyMain = NULL)
   points(x = Loc[MA3$year==Years[i],1],
          y = Loc[MA3$year==Years[i],2], 
          cex = 0.8, # size dot
